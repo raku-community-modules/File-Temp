@@ -1,9 +1,25 @@
 branches:
   except:
     - gh-pages
+
+sudo: required
+
 language: perl6
+
+os:
+  - linux
+  - osx
+
 perl6:
+  - 2018.04
   - latest
+
 install:
+  - echo $TRAVIS_OS_NAME
   - rakudobrew build zef
   - zef --debug --depsonly install .
+
+script:
+  - prove -v -e "perl6 -Ilib"
+  - zef install .
+
