@@ -3,9 +3,10 @@
   "description": "Create temporary files & directories",
   "version": "0.0.8",
   "perl": "6.*",
-  "auth": "github.com:rbt",
+  "auth": "github:rbt",
   "authors": [
-    "Jonathan Scott Duff <duff@pobox.com>"
+    "Jonathan Scott Duff <duff@pobox.com>",
+    "Rod Taylor <rbt@cpan.org>"
   ],
   "depends": [
     "File::Directory::Tree"
