@@ -14,7 +14,7 @@
   "meta-version": "0",
   "name": "File::Temp",
   "provides": {
-    "File::Temp": "lib/File/Temp.pm"
+    "File::Temp": "lib/File/Temp.rakumod"
   },
   "raku": null,
   "resources": [
