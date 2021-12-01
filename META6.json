@@ -19,9 +19,9 @@
   "raku": null,
   "resources": [
   ],
-  "source-url": "git@github.com:rbt/raku-File-Temp.git",
   "support": {
-    "source": null
+    "bugtracker": "https://github.com/rbt/raku-File-Temp/issues",
+    "source": "https://github.com/rbt/raku-File-Temp.git"
   },
   "tags": [
   ],
