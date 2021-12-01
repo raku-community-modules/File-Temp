@@ -1,26 +1,32 @@
 {
-  "name": "File::Temp",
-  "description": "Create temporary files & directories",
-  "version": "0.0.8",
-  "perl": "6.*",
-  "auth": "github:rbt",
+  "auth": "zef:rbt",
   "authors": [
     "Jonathan Scott Duff <duff@pobox.com>",
-    "Rod Taylor <rbt@cpan.org>"
+    "Rod Taylor <raku@rbt.ca>"
+  ],
+  "build-depends": [
   ],
   "depends": [
     "File::Directory::Tree"
   ],
-  "build-depends": [],
-  "test-depends": [
-    "Test"
-  ],
+  "description": "Create temporary files & directories",
+  "license": "Artistic-2.0",
+  "meta-version": "0",
+  "name": "File::Temp",
   "provides": {
     "File::Temp": "lib/File/Temp.pm"
   },
-  "resources": [],
-  "license": "Artistic-2.0",
-  "tags": [],
+  "raku": null,
+  "resources": [
+  ],
   "source-url": "git@github.com:rbt/raku-File-Temp.git",
-  "repo-type": "git"
+  "support": {
+    "source": null
+  },
+  "tags": [
+  ],
+  "test-depends": [
+    "Test"
+  ],
+  "version": "0.0.9"
 }
