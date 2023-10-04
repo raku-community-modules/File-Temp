@@ -3,6 +3,7 @@ on: [push, pull_request]
 jobs:
   raku:
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
