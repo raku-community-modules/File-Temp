@@ -18,4 +18,4 @@ jobs:
         with:
           raku-version: ${{ matrix.raku-version }}
       - name: Run tests and Install
-        run: zef install . --debug --tap-harness
+        run: zef install . --debug --/tap-harness
