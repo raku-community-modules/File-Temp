@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/github/perlpilot/p6-File-Temps?svg=true)](https://ci.appveyor.com/project/perlpilot/p6-File-Temps/branch/master)
+[![Actions Status](https://github.com/2colours/raku-File-Temp/actions/workflows/test.yml/badge.svg)](https://github.com/2colours/raku-File-Temp/actions)
 
 NAME
 ====
@@ -41,3 +41,4 @@ AUTHOR
 ======
 
 Jonathan Scott Duff <duff@pobox.com>
+Rod Taylor (@rbt)
