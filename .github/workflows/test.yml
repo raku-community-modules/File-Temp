@@ -14,6 +14,22 @@ jobs:
           - "2023.08"
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Windows TMP
+        if: ${{ matrix.os == 'windows' }}
+        env:
+          # saving a few characters on the default C:\Users\RUNNER~1\AppData\Local\Temp trying to avoid the 260 chars
+          # max path length limit of Windows
+          # https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#maximum-path-length-limitation
+          TMP: ${{ inputs.os == 'windows' && 'D:\T' || '/tmp' }}
+          ZEF_CONFIG_TEMPDIR: ${{ inputs.os == 'windows' && 'D:\T' || '/tmp' }}
+          TEMP: ${{ inputs.os == 'windows' && 'D:\T' || '/tmp' }}
+
+      - name: Windows LongPathsEnabled
+        if: ${{ matrix.os == 'windows' }}
+        run: |
+          New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+          mkdir -Force "${{ env.ZEF_CONFIG_TEMPDIR }}"
+      
       - uses: actions/checkout@v4
       - uses: Raku/setup-raku@v1
         with:
