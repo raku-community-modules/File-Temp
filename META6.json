@@ -27,7 +27,8 @@
   "tags": [
   ],
   "test-depends": [
-    "Test"
+    "Test",
+    "Test::META"
   ],
   "version": "0.0.10"
 }
