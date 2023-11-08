@@ -13,17 +13,16 @@ jobs:
           - "latest"
           - "2023.08"
     runs-on: ${{ matrix.os }}
-    steps:
-      - name: Windows TMP
-        if: ${{ matrix.os == 'windows' }}
-        env:
-          # saving a few characters on the default C:\Users\RUNNER~1\AppData\Local\Temp trying to avoid the 260 chars
-          # max path length limit of Windows
-          # https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#maximum-path-length-limitation
-          TMP: ${{ inputs.os == 'windows' && 'D:\T' || '/tmp' }}
-          ZEF_CONFIG_TEMPDIR: ${{ inputs.os == 'windows' && 'D:\T' || '/tmp' }}
-          TEMP: ${{ inputs.os == 'windows' && 'D:\T' || '/tmp' }}
+    
+    env:
+      # saving a few characters on the default C:\Users\RUNNER~1\AppData\Local\Temp trying to avoid the 260 chars
+      # max path length limit of Windows
+      # https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#maximum-path-length-limitation
+      TMP: ${{ inputs.os == 'windows' && 'D:\T' || '/tmp' }}
+      ZEF_CONFIG_TEMPDIR: ${{ inputs.os == 'windows' && 'D:\T' || '/tmp' }}
+      TEMP: ${{ inputs.os == 'windows' && 'D:\T' || '/tmp' }}
 
+    steps:
       - name: Windows LongPathsEnabled
         if: ${{ matrix.os == 'windows' }}
         run: |
