@@ -1,0 +1,15 @@
+Revision history for File::Temp
+
+{{$NEXT}}
+
+6eef25a 2023-10-04
+    - commit 6eef25a by 2colours at
+           https://github.com/2colours/raku-File-Temp
+
+0.0.10  2021-12-01
+    - TODO get detail of the last version number 
+         identified
+
+7f128ad 2017-11-05
+    - last release by the original author at
+           https://github.com/perlpilot/p6-File-Temp
