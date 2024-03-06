@@ -1,6 +1,11 @@
 Revision history for File::Temp
 
 {{$NEXT}}
+    - Convert to use App::Mi6
+    - Convert to README generated from README.rakudoc
+    - Add 3-OS tests
+    - Add tempdir example to README
+    - document previous releases
 
 6eef25a 2023-10-04
     - commit 6eef25a by 2colours at

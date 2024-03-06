@@ -12,6 +12,9 @@ SYNOPSIS
 
 
 
+        # Generate a temp dir
+        my $tmpdir = tempdir;
+
         # Generate a temp file in a temp dir
         my ($filename,$filehandle) = tempfile;
 
