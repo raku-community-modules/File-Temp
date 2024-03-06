@@ -20,10 +20,10 @@
   "raku": null,
   "resources": [
   ],
-  "source-url": "https://github.com/tbrowder/File-Temp.git",
+  "source-url": "https://github.com/raku-community-modules/raku-File-Temp.git",
   "support": {
-    "bugtracker": "https://github.com/rbt/raku-File-Temp/issues",
-    "source": "https://github.com/rbt/raku-File-Temp.git"
+    "bugtracker": "https://github.com/raku-community-modules/raku-File-Temp/issues",
+    "source-url": "https://github.com/raku-community-modules/raku-File-Temp.git"
   },
   "tags": [
     "file tempfile tempdir"
