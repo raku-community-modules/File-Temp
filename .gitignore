@@ -1,2 +1,3 @@
 lib/.precomp
 *.iml
+.precomp/
