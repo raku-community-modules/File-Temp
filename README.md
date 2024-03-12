@@ -52,6 +52,8 @@ AUTHORS
 
   * Polgár Márton
 
+  * Tom Browder
+
 COPYRIGHT AND LICENSE
 =====================
 
@@ -59,9 +61,7 @@ Copyright 2012 - 2017 Jonathan Scott Duff
 
 Copyright 2018 - 2021 Rod Taylor
 
-Copyright 2022 - 2023 Polgár Márton
-
-Copyright 2024 Raku Community
+Copyright 2022 - 2024 Raku Community
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 
