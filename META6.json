@@ -1,9 +1,10 @@
 {
-  "auth": "zef:rbt",
+  "auth": "zef:raku-community-modules",
   "authors": [
-    "Jonathan Scott Duff <duff@pobox.com>",
-    "Rod Taylor <raku@rbt.ca>",
-    "Martin <2colours>"
+    "Jonathan Scott Duff",
+    "Rod Taylor",
+    "Márton Polgár"
+    "Tom Browder"
   ],
   "build-depends": [
   ],
@@ -20,15 +21,15 @@
   "raku": null,
   "resources": [
   ],
-  "source-url": "https://github.com/raku-community-modules/raku-File-Temp.git",
+  "source-url": "https://github.com/raku-community-modules/File-Temp.git",
   "support": {
-    "bugtracker": "https://github.com/raku-community-modules/raku-File-Temp/issues",
-    "source-url": "https://github.com/raku-community-modules/raku-File-Temp.git"
+    "bugtracker": "https://github.com/raku-community-modules/File-Temp/issues",
+    "source-url": "https://github.com/raku-community-modules/File-Temp.git"
   },
   "tags": [
     "file tempfile tempdir"
   ],
   "test-depends": [
   ],
-  "version": "0.0.10"
+  "version": "0.0.11"
 }

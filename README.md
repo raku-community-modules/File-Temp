@@ -3,36 +3,34 @@
 NAME
 ====
 
-
-
-File::Temp
+File::Temp - Create temporary files & directories
 
 SYNOPSIS
 ========
 
+```raku
+# Generate a temp dir
+my $tmpdir = tempdir;
 
+# Generate a temp file in a temp dir
+my ($filename, $filehandle) = tempfile;
 
-        # Generate a temp dir
-        my $tmpdir = tempdir;
+# specify a template for the filename
+#  * are replaced with random characters
+my ($filename, $filehandle) = tempfile("******");
 
-        # Generate a temp file in a temp dir
-        my ($filename,$filehandle) = tempfile;
+# Automatically unlink files at end of program (this is the default)
+my ($filename, $filehandle) = tempfile("******", :unlink);
 
-        # specify a template for the filename
-        #  * are replaced with random characters
-        my ($filename,$filehandle) = tempfile("******");
+# Specify the directory where the tempfile will be created
+my ($filename, $filehandle) = tempfile(:tempdir("/path/to/my/dir"));
 
-        # Automatically unlink files at DESTROY (this is the default)
-        my ($filename,$filehandle) = tempfile("******", :unlink);
+# don't unlink this one
+my ($filename, $filehandle) = tempfile(:tempdir('.'), :!unlink);
 
-        # Specify the directory where the tempfile will be created
-        my ($filename,$filehandle) = tempfile(:tempdir("/path/to/my/dir"));
-
-        # don't unlink this one
-        my ($filename,$filehandle) = tempfile(:tempdir('.'), :!unlink);
-
-        # specify a prefix and suffix for the filename
-        my ($filename,$filehandle) = tempfile(:prefix('foo'), :suffix(".txt"));
+# specify a prefix and suffix for the filename
+my ($filename, $filehandle) = tempfile(:prefix('foo'), :suffix(".txt"));
+```
 
 DESCRIPTION
 ===========
@@ -41,18 +39,29 @@ DESCRIPTION
 
 This module exports two routines:
 
-  * tempfile - creates a temporary file and returns a filehandle to that file opened for writing and the filename of that temporary file
+  * tempfile Creates a temporary file and returns a filehandle to that file opened for writing and the filename of that temporary file
 
-  * tempdir - creates a temporary directory and returns the directory name
+  * tempdir Creates a temporary directory and returns the directory name
 
-AUTHOR
-======
+AUTHORS
+=======
 
+  * Jonathan Scott Duff
 
+  * Rod Taylor
 
-  * Jonathan Scott Duff <duff@pobox.com>
+  * Polgár Márton
 
-  * Rod Taylor (@rbt)
+COPYRIGHT AND LICENSE
+=====================
 
-  * @2colours
+Copyright 2012 - 2017 Jonathan Scott Duff
+
+Copyright 2018 - 2021 Rod Taylor
+
+Copyright 2022 - 2023 Polgár Márton
+
+Copyright 2024 Raku Community
+
+This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 

@@ -6,8 +6,8 @@ use File::Directory::Tree;
 my @filechars = flat('a'..'z', 'A'..'Z', 0..9, '_');
 constant MAX-RETRIES = 10;
 
-my %roster = ();
-my %keptfd = ();
+my %roster;
+my %keptfd;
 my Lock $roster-lock;
 my Lock $keptfd-lock;
 BEGIN { # Because --doc runs END
@@ -37,7 +37,7 @@ my role File::Temp::AutoUnlink {
 
 sub make-temp($type, $template, $tempdir, $prefix, $suffix, $unlink) {
     my $count = MAX-RETRIES;
-    while ($count--) {
+    while $count-- {
         my $tempfile = $template;
         $tempfile ~~ s/ '*' ** 4..* /{ @filechars.roll($/.chars).join }/;
         my $name = $*SPEC.catfile($tempdir,"$prefix$tempfile$suffix");
@@ -73,7 +73,7 @@ sub tempfile (
     :$unlink?  = 1,             # remove when program exits?
     :$template = $tmpl          # required named template
 ) is export {
-    return make-temp('file', $template, $tempdir, $prefix, $suffix, $unlink);
+    make-temp('file', $template, $tempdir, $prefix, $suffix, $unlink)
 }
 
 our sub tempdir (
@@ -84,7 +84,7 @@ our sub tempdir (
     :$unlink?  = 1,             # remove when program exits?
     :$template = $tmpl          # required named template
 ) is export {
-    return make-temp('dir', $template, $tempdir, $prefix, $suffix, $unlink);
+    make-temp('dir', $template, $tempdir, $prefix, $suffix, $unlink)
 }
 
 END {
@@ -113,35 +113,66 @@ END {
     }
 }
 
-
 =begin pod
-=NAME       File::Temp
-=SYNOPSIS
 
-    # Generate a temp file in a temp dir
-    my ($filename,$filehandle) = tempfile;
+=head1 NAME
 
-    # specify a template for the filename
-    #  * are replaced with random characters
-    my ($filename,$filehandle) = tempfile("******");
+File::Temp - Create temporary files & directories
 
-    # Automatically unlink files at end of program (this is the default)
-    my ($filename,$filehandle) = tempfile("******", :unlink);
+=head1 SYNOPSIS
 
-    # Specify the directory where the tempfile will be created
-    my ($filename,$filehandle) = tempfile(:tempdir("/path/to/my/dir"));
+=begin code :lang<raku>
 
-    # don't unlink this one
-    my ($filename,$filehandle) = tempfile(:tempdir('.'), :!unlink);
+# Generate a temp dir
+my $tmpdir = tempdir;
 
-    # specify a prefix and suffix for the filename
-    my ($filename,$filehandle) = tempfile(:prefix('foo'), :suffix(".txt"));
+# Generate a temp file in a temp dir
+my ($filename, $filehandle) = tempfile;
+
+# specify a template for the filename
+#  * are replaced with random characters
+my ($filename, $filehandle) = tempfile("******");
+
+# Automatically unlink files at end of program (this is the default)
+my ($filename, $filehandle) = tempfile("******", :unlink);
+
+# Specify the directory where the tempfile will be created
+my ($filename, $filehandle) = tempfile(:tempdir("/path/to/my/dir"));
+
+# don't unlink this one
+my ($filename, $filehandle) = tempfile(:tempdir('.'), :!unlink);
+
+# specify a prefix and suffix for the filename
+my ($filename, $filehandle) = tempfile(:prefix('foo'), :suffix(".txt"));
+
+=end code
 
 =DESCRIPTION
 
 This module exports two routines:
-=item tempfile
-=item tempdir
 
-=AUTHOR Jonathan Scott Duff <duff@pobox.com>
+=item tempfile
+Creates a temporary file and returns a filehandle to that file
+opened for writing and the filename of that temporary file
+
+=item tempdir
+Creates a temporary directory and returns the directory name
+
+=head1 AUTHORS
+
+=item Jonathan Scott Duff
+=item Rod Taylor
+=item Polgár Márton
+=item Tom Browder
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2012 - 2017 Jonathan Scott Duff
+
+Copyright 2018 - 2021 Rod Taylor
+
+Copyright 2022 - 2024 Raku Community
+
+This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
+
 =end pod
