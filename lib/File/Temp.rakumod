@@ -117,7 +117,7 @@ END {
 
 =head1 NAME
 
-File::Temp - Create temporary files & directories
+File::Temp - Create temporary files and directories
 
 =head1 SYNOPSIS
 
@@ -129,21 +129,21 @@ my $tmpdir = tempdir;
 # Generate a temp file in a temp dir
 my ($filename, $filehandle) = tempfile;
 
-# specify a template for the filename
-#  * are replaced with random characters
-my ($filename, $filehandle) = tempfile("******");
+# Specify a template for the filename
+# '*' are replaced with random characters
+my ($filename, $filehandle) = tempfile('******');
 
-# Automatically unlink files at end of program (this is the default)
-my ($filename, $filehandle) = tempfile("******", :unlink);
+# Explicitly unlink files at end of program (this is the default)
+my ($filename, $filehandle) = tempfile('******', :unlink);
 
 # Specify the directory where the tempfile will be created
-my ($filename, $filehandle) = tempfile(:tempdir("/path/to/my/dir"));
+my ($filename, $filehandle) = tempfile(:tempdir('/path/to/my/dir'));
 
-# don't unlink this one
+# Don't unlink file at end of program
 my ($filename, $filehandle) = tempfile(:tempdir('.'), :!unlink);
 
-# specify a prefix and suffix for the filename
-my ($filename, $filehandle) = tempfile(:prefix('foo'), :suffix(".txt"));
+# Specify a prefix and suffix for the filename
+my ($filename, $filehandle) = tempfile(:prefix('foo'), :suffix('.txt'));
 
 =end code
 
@@ -151,12 +151,12 @@ my ($filename, $filehandle) = tempfile(:prefix('foo'), :suffix(".txt"));
 
 This module exports two routines:
 
-=item tempfile
-Creates a temporary file and returns a filehandle to that file
-opened for writing and the filename of that temporary file
+=item C<tempfile>
+Creates a temporary file and returns both a filehandle to that file
+opened for writing and the filename of that temporary file.
 
-=item tempdir
-Creates a temporary directory and returns the directory name
+=item C<tempdir>
+Creates a temporary directory and returns the directory name.
 
 =head1 AUTHORS
 
