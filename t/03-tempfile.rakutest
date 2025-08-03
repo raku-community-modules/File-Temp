@@ -1,7 +1,7 @@
 use Test;
 use File::Directory::Tree;
 
-plan(14);
+plan 14;
 
 my (@should-be-unlinked, @should-be-kept);
 
@@ -25,21 +25,17 @@ END {
     }
 }
 
+# Make sure that the END phaser of File::Temp is run *before* the
+# END phaser in this test file
+my (&tempfile, &tempdir) := 'use File::Temp; &tempfile, &tempdir'.EVAL;
 
-# TODO Remove the EVAL; this is a hack to work around improper ordering
-#      of END phasers in Rakudo
-
-EVAL '
-use File::Temp;
-
-# begin tempdile tests
-
+# begin tempfile tests
 my ($name,$handle) = tempfile;
-ok($name.IO ~~ :e, "tempfile created");
-ok($handle.close, "tempfile closed");
+ok $name.IO ~~ :e, "tempfile created";
+ok $handle.close, "tempfile closed";
 
 
-ok($name.IO ~~ :e, "tempfile exists after closing the handle");
+ok $name.IO ~~ :e, "tempfile exists after closing the handle";
 @should-be-unlinked.push: $name;
 
 ($name,$handle) = tempfile( :!unlink );
@@ -55,9 +51,8 @@ ok($name ~~ / ".txt" $ /, "name ends in .txt");
 
 
 # begin tempdir tests
-
 my $dir_name = tempdir;
-ok($dir_name.IO ~~ :e, "tempdir created");
+ok $dir_name.IO ~~ :e, "tempdir created";
 
 @should-be-unlinked.push: $dir_name;
 
@@ -66,7 +61,6 @@ $dir_name = tempdir( :!unlink );
 
 $dir_name = tempdir( :prefix("foo") );
 @should-be-unlinked.push: $dir_name;
-ok($dir_name ~~ /foo/, "$dir_name contains foo");
+ok $dir_name ~~ /foo/, "$dir_name contains foo";
 
-'
-
+# vim: expandtab shiftwidth=4

@@ -1,22 +1,17 @@
 Revision history for File::Temp
 
 {{$NEXT}}
+    - Modernized META6.json and documentation
+    - Coverage testing at 100%
+    - Added initial source SBOM
 
 0.0.11  2024-03-12T13:33:00+01:00
     - prepare for zef:raku-community-modules release
     - Convert to README generated from README.rakudoc
-    - Add 3-OS tests
+    - Add 3-OS badges
     - Add tempdir example to README
     - document previous releases
 
-6eef25a 2023-10-04
-    - commit 6eef25a by 2colours at
-           https://github.com/2colours/raku-File-Temp
-
 0.0.10  2021-12-01
     - TODO get detail of the last version number 
-         identified
-
-7f128ad 2017-11-05
-    - last release by the original author at
-           https://github.com/perlpilot/p6-File-Temp
+      identified

@@ -1,14 +1,12 @@
-[![Actions Status](https://github.com/raku-community-modules/File-Temp/actions/workflows/linux.yml/badge.svg)](https://github.com/raku-community-modules/File-Temp/actions) [![Actions Status](https://github.com/raku-community-modules/File-Temp/actions/workflows/macos.yml/badge.svg)](https://github.com/raku-community-modules/File-Temp/actions) [![Actions Status](https://github.com/raku-community-modules/File-Temp/actions/workflows/windows.yml/badge.svg)](https://github.com/raku-community-modules/File-Temp/actions)
+=begin pod
 
-NAME
-====
+=head1 NAME
 
 File::Temp - Create temporary files & directories
 
-SYNOPSIS
-========
+=head1 SYNOPSIS
 
-```raku
+=begin code :lang<raku>
 # Generate a temporary directory
 my $tmpdir = tempdir;
 
@@ -30,34 +28,30 @@ my ($filename, $filehandle) = tempfile(:tempdir('.'), :!unlink);
 
 # specify a prefix and suffix for the filename
 my ($filename, $filehandle) = tempfile(:prefix('foo'), :suffix(".txt"));
-```
+=end code
 
-DESCRIPTION
-===========
-
-
+=DESCRIPTION
 
 This module exports two routines:
 
-  * tempfile Creates a temporary file and returns a filehandle to that file opened for writing and the filename of that temporary file
+=item tempfile
+Creates a temporary file and returns a filehandle to that file
+opened for writing and the filename of that temporary file
 
-  * tempdir Creates a temporary directory and returns the directory name
+=item tempdir
+Creates a temporary directory and returns the directory name
 
-AUTHORS
-=======
+=head1 AUTHORS
 
-  * Jonathan Scott Duff
+=item Jonathan Scott Duff
+=item Rod Taylor
+=item Polgár Márton
+=item Tom Browder
 
-  * Rod Taylor
+Source can be located at: https://github.com/raku-community-modules/File-Temp
+.  Comments and Pull Requests are welcome.
 
-  * Polgár Márton
-
-  * Tom Browder
-
-Source can be located at: https://github.com/raku-community-modules/File-Temp . Comments and Pull Requests are welcome.
-
-COPYRIGHT AND LICENSE
-=====================
+=head1 COPYRIGHT AND LICENSE
 
 Copyright 2012 - 2017 Jonathan Scott Duff
 
@@ -67,3 +61,6 @@ Copyright 2022 - 2025 Raku Community
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 
+=end pod
+
+# vim: expandtab shiftwidth=4

@@ -1,6 +1,5 @@
-unit module File::Temp:ver<0.0.11>;
 
-use File::Directory::Tree;
+use File::Directory::Tree:ver<0.2+>:auth<zef:raku-community-modules>;
 
 # Characters used to create temporary file/directory names
 my @filechars = flat('a'..'z', 'A'..'Z', 0..9, '_');
@@ -8,12 +7,8 @@ constant MAX-RETRIES = 10;
 
 my %roster;
 my %keptfd;
-my Lock $roster-lock;
-my Lock $keptfd-lock;
-BEGIN { # Because --doc runs END
-    $roster-lock = Lock.new;
-    $keptfd-lock = Lock.new;
-}
+my Lock $roster-lock = Lock.new;
+my Lock $keptfd-lock = Lock.new;
 
 my role File::Temp::AutoUnlink {
     submethod DESTROY {
@@ -35,13 +30,14 @@ my role File::Temp::AutoUnlink {
     }
 }
 
-sub make-temp($type, $template, $tempdir, $prefix, $suffix, $unlink) {
+my sub make-temp($type, $template, $tempdir, $prefix, $suffix, $unlink) {
     my $count = MAX-RETRIES;
     while $count-- {
         my $tempfile = $template;
         $tempfile ~~ s/ '*' ** 4..* /{ @filechars.roll($/.chars).join }/;
         my $name = $*SPEC.catfile($tempdir,"$prefix$tempfile$suffix");
-        next if $name.IO ~~ :e;
+        next if $name.IO.e;
+
         my $fh;
         if $type eq 'file' {
             $fh = try { CATCH { next }; open $name, :rw, :exclusive;  };
@@ -50,14 +46,16 @@ sub make-temp($type, $template, $tempdir, $prefix, $suffix, $unlink) {
         else {
             try { CATCH { next }; mkdir($name, 0o700) };
         }
+
         if $unlink {
             $roster-lock.protect: {
-                %roster{$name} = $fh;
+                %roster{$name} = $fh;  # UNCOVERABLE
             };
             $fh &&= $fh does File::Temp::AutoUnlink;
-        } elsif ($type eq 'file') {
+        }
+        elsif ($type eq 'file') {
             $keptfd-lock.protect: {
-                %keptfd{$name} = $fh;
+                %keptfd{$name} = $fh;  # UNCOVERABLE
             }
         }
         return $type eq 'file' ?? ($name,$fh) !! $name;
@@ -65,114 +63,62 @@ sub make-temp($type, $template, $tempdir, $prefix, $suffix, $unlink) {
     fail "Unable to open temporary $type after {MAX-RETRIES} attempts within \"$tempdir\"";
 }
 
-sub tempfile (
-    $tmpl? = '*' x 10,          # positional template
-    :$tempdir? = $*TMPDIR,      # where to create these temp files
-    :$prefix? = '',             # filename prefix
-    :$suffix? = '',             # filename suffix
-    :$unlink?  = 1,             # remove when program exits?
-    :$template = $tmpl          # required named template
+my sub tempfile (
+     $tmpl     = '*' x 10,  # positional template
+    :$tempdir  = $*TMPDIR,  # where to create these temp files
+    :$prefix   = '',        # filename prefix
+    :$suffix   = '',        # filename suffix
+    :$unlink   = 1,         # remove when program exits?
+    :$template = $tmpl      # required named template
 ) is export {
     make-temp('file', $template, $tempdir, $prefix, $suffix, $unlink)
 }
 
-our sub tempdir (
-    $tmpl? = '*' x 10,          # positional template
-    :$tempdir? = $*TMPDIR,      # where to create tempdir
-    :$prefix? = '',             # directory prefix
-    :$suffix? = '',             # directory suffix
-    :$unlink?  = 1,             # remove when program exits?
-    :$template = $tmpl          # required named template
+my sub tempdir (
+     $tmpl     = '*' x 10,  # positional template
+    :$tempdir  = $*TMPDIR,  # where to create tempdir
+    :$prefix   = '',        # directory prefix
+    :$suffix   = '',        # directory suffix
+    :$unlink   = 1,         # remove when program exits?
+    :$template = $tmpl      # required named template
 ) is export {
     make-temp('dir', $template, $tempdir, $prefix, $suffix, $unlink)
 }
 
+#- END -------------------------------------------------------------------------
 END {
-    $roster-lock.protect: {
-        # Workaround -- directly using %roster.keys not reliable under stress.
+    my sub clean-roster() {
+        # Workaround -- directly using %roster.keys not reliable under stress
         my @rk = %roster.keys;
         for @rk -> $fn {
-            if $fn.IO ~~ :f
-            {
+            my $io := $fn.IO;
+            if $io.f {
                 %roster{$fn}.close;
                 unlink($fn);
             }
-            elsif $fn.IO ~~ :d
-            {
+            elsif $io.d {  # UNCOVERABLE
                 rmtree($fn);
             }
         }
         %roster = ();
     }
-    $keptfd-lock.protect: {
+
+    my sub clean-keptfd() {
         my @kk = %keptfd.keys;
         for @kk -> $fn {
             %keptfd{$fn}.close;
         }
         %keptfd = ();
     }
+
+    # Do cleanup, either thread-safe if in normal execution, or
+    # non-threadsafe during (pre-)compilation or with --doc
+    $roster-lock ?? $roster-lock.protect(&clean-roster) !! clean-roster;
+    $keptfd-lock ?? $keptfd-lock.protect(&clean-keptfd) !! clean-keptfd;
 }
 
-=begin pod
+#- hack ------------------------------------------------------------------------
+# To allow version fetching
+unit module File::Temp:ver<0.0.12>;
 
-=head1 NAME
-
-File::Temp - Create temporary files & directories
-
-=head1 SYNOPSIS
-
-=begin code :lang<raku>
-
-# Generate a temp dir
-my $tmpdir = tempdir;
-
-# Generate a temp file in a temp dir
-my ($filename, $filehandle) = tempfile;
-
-# specify a template for the filename
-#  * are replaced with random characters
-my ($filename, $filehandle) = tempfile("******");
-
-# Automatically unlink files at end of program (this is the default)
-my ($filename, $filehandle) = tempfile("******", :unlink);
-
-# Specify the directory where the tempfile will be created
-my ($filename, $filehandle) = tempfile(:tempdir("/path/to/my/dir"));
-
-# don't unlink this one
-my ($filename, $filehandle) = tempfile(:tempdir('.'), :!unlink);
-
-# specify a prefix and suffix for the filename
-my ($filename, $filehandle) = tempfile(:prefix('foo'), :suffix(".txt"));
-
-=end code
-
-=DESCRIPTION
-
-This module exports two routines:
-
-=item tempfile
-Creates a temporary file and returns a filehandle to that file
-opened for writing and the filename of that temporary file
-
-=item tempdir
-Creates a temporary directory and returns the directory name
-
-=head1 AUTHORS
-
-=item Jonathan Scott Duff
-=item Rod Taylor
-=item Polgár Márton
-=item Tom Browder
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright 2012 - 2017 Jonathan Scott Duff
-
-Copyright 2018 - 2021 Rod Taylor
-
-Copyright 2022 - 2024 Raku Community
-
-This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
-
-=end pod
+# vim: expandtab shiftwidth=4

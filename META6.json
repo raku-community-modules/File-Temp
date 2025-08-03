@@ -8,28 +8,36 @@
   ],
   "build-depends": [
   ],
-  "depends": [
-    "File::Directory::Tree"
-  ],
+  "depends": {
+    "runtime": {
+      "requires": [
+        "File::Directory::Tree:ver<0.2+>:auth<zef:raku-community-modules>"
+      ]
+    }
+  },
   "description": "Create temporary files & directories",
   "license": "Artistic-2.0",
   "meta-version": "0",
   "name": "File::Temp",
+  "perl": "6.d",
   "provides": {
     "File::Temp": "lib/File/Temp.rakumod"
   },
-  "raku": null,
+  "raku": "6.d",
   "resources": [
   ],
   "source-url": "https://github.com/raku-community-modules/File-Temp.git",
   "support": {
     "bugtracker": "https://github.com/raku-community-modules/File-Temp/issues",
-    "source-url": "https://github.com/raku-community-modules/File-Temp.git"
+    "email": "community@raku.org",
+    "source": "https://github.com/raku-community-modules/File-Temp.git"
   },
   "tags": [
-    "file tempfile tempdir"
+    "FILE",
+    "TEMPFILE",
+    "TEMPDIR"
   ],
   "test-depends": [
   ],
-  "version": "0.0.11"
+  "version": "0.0.12"
 }

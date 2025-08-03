@@ -1,7 +1,10 @@
 use Test;
 use File::Temp;
 
-plan 2;
+plan 4;
+
+ok ::('&tempfile'), 'tempfile was exported';
+ok ::('&tempdir'),  'tempdir was exported';
 
 my ($fn, $fh) = tempfile;
 is-deeply $fn.IO.e, True, 'file exists when we start';
