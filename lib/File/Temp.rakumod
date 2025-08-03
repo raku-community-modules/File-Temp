@@ -1,3 +1,4 @@
+unit module File::Temp:ver<0.0.12>;
 
 use File::Directory::Tree:ver<0.2+>:auth<zef:raku-community-modules>;
 
@@ -116,9 +117,5 @@ END {
     $roster-lock ?? $roster-lock.protect(&clean-roster) !! clean-roster;
     $keptfd-lock ?? $keptfd-lock.protect(&clean-keptfd) !! clean-keptfd;
 }
-
-#- hack ------------------------------------------------------------------------
-# To allow version fetching
-unit module File::Temp:ver<0.0.12>;
 
 # vim: expandtab shiftwidth=4
